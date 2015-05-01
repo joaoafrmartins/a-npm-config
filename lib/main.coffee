@@ -1,8 +1,8 @@
 merge = require 'lodash.merge'
 
-module.exports = (pwd, keys) ->
+module.exports = (file, keys) ->
 
-  config = require "#{pwd}/default/config"
+  config = require "#{file}"
 
   try
 
