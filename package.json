@@ -1,0 +1,23 @@
+{
+  "name": "a-npm-config",
+  "version": "0.0.0",
+  "main": "lib/main",
+  "description": "A Npm Config",
+  "keywords": [
+    "a",
+    "npm",
+    "config"
+  ],
+  "dependencies": {
+    "lodash.merge": ""
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/joaoafrmartins/a-npm-config",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaoafrmartins/a-npm-config.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joaoafrmartins/a-npm-config/issues"
+  }
+}
