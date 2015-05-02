@@ -1,47 +1,53 @@
+{ resolve } = require 'path'
+
 merge = require 'lodash.merge'
 
 module.exports = (file, keys) ->
 
-  config = require "#{file}"
+  try
+
+    config = require "#{file}"
+
+  catch err then config = {}
+
+  Object.keys(process.env).map (key) ->
+
+    if key.match(/^npm_package_config_/) isnt null
+
+      value = process.env[key]
+
+      key = key.replace(/^npm_package_config_/, '').split "_"
+
+      if key[key.length-1].match(/[0-9]+$/) isnt null
+
+        type = key.shift()
+
+        index = JSON.parse key.pop()
+
+        type = [type].concat(key).join "_"
+
+        config[type] ?= []
+
+        config[type][index] = value
+
+      else if key.length is 1
+
+        config[key.shift()] = value
 
   try
 
-    return merge config, require "#{process.env.PWD}/config"
+    if keys.length > 0
 
-  catch err
+      pkg = require resolve "#{process.env.PWD}", "package"
 
-    Object.keys(process.env).map (key) ->
+      keys.map (key) ->
 
-      if key.match(/^npm_package_config_/) isnt null
+        if value = pkg?.config?[key]
 
-        value = process.env[key]
+          config[key] = merge config[key] or {}, value
 
-        key = key.replace(/^npm_package_config_/, '').split "_"
+  catch err then console.log err.message, err.stack
 
-        if key[key.length-1].match(/[0-9]+$/) isnt null
+  console.log JSON.stringify config, null, 2
 
-          type = key.shift()
-
-          index = JSON.parse key.pop()
-
-          type = [type].concat(key).join "_"
-
-          config[type] ?= []
-
-          config[type][index] = value
-
-        else
-
-          type = key.shift()
-
-          if keys.indexOf(type) isnt -1
-
-            key = key.join "-"
-
-            config[type][key] = JSON.parse value
-
-          else
-
-            config[type] = value
-
-    return merge config
+  config
