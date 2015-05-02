@@ -48,6 +48,4 @@ module.exports = (file, keys) ->
 
   catch err then console.log err.message, err.stack
 
-  console.log JSON.stringify config, null, 2
-
   config
