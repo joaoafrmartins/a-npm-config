@@ -18,7 +18,7 @@ module.exports = (file, keys) ->
 
       key = key.replace(/^npm_package_config_/, '').split "_"
 
-      if key[key.length-1].match(/[0-9]+$/) isnt null
+      if key[key.length-1].match(/^[0-9]+$/) isnt null
 
         type = key.shift()
 
